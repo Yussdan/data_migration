@@ -1,10 +1,11 @@
-create table if not exists public.shipping_transfer(
-	id serial,
-	transfer_type varchar(100),
-	transfer_model varchar(100),
-	shipping_transfer_rate numeric(14,3),
-	primary key (id) 
+CREATE TABLE IF NOT EXISTS public.shipping_transfer(
+	id SERIAL,
+	transfer_type VARCHAR(100),
+	transfer_model VARCHAR(100),
+	shipping_transfer_rate NUMERIC(14,3),
+	PRIMARY KEY (id) 
 	);
-insert into public.shipping_transfer(transfer_type,transfer_model,shipping_transfer_rate)
-select distinct arr[1], arr[2],shipping_transfer_rate from(
-select regexp_split_to_array(shipping_transfer_description, ':+') as arr,shipping_transfer_rate from public.shipping s) tmp_arr
+INSERT INTO public.shipping_transfer(transfer_type,transfer_model,shipping_transfer_rate)
+SELECT DISTINCT arr[1], arr[2],shipping_transfer_rate 
+FROM(
+SELECT regexp_split_to_array(shipping_transfer_description, ':+') AS arr,shipping_transfer_rate FROM public.shipping s) tmp_arr

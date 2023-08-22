@@ -1,11 +1,11 @@
-create table if not exists public.shipping_agreement(
-	agreement_id int4,
-	agreement_number varchar(256),
-	agreement_rate numeric(14,2),
-	agreement_commission numeric(14,3),
-	primary key (agreement_id) 
+CREATE TABLE IF NOT EXISTS public.shipping_agreement(
+	agreement_id INT4,
+	agreement_number VARCHAR(256),
+	agreement_rate NUMERIC(14,2),
+	agreement_commission NUMERIC(14,3),
+	PRIMARY KEY (agreement_id) 
 	);
-insert into public.shipping_agreement
-select distinct cast(arr[1] as int) as id,arr[2],cast(arr[3] as numeric(14,2)),cast(arr[4] as numeric(14,3)) from (
-select regexp_split_to_array(vendor_agreement_description, ':+') as arr from public.shipping s) as tmp_arr
-order by id;
+INSERT INTO public.shipping_agreement
+SELECT DISTINCT cast(arr[1] AS INT) AS id,arr[2],cast(arr[3] AS NUMERIC(14,2)),cast(arr[4] AS NUMERIC(14,3)) FROM (
+SELECT regexp_split_to_array(vendor_agreement_description, ':+') AS arr FROM public.shipping s) AS tmp_arr
+ORDER BY id;

@@ -1,16 +1,16 @@
 CREATE TABLE   public.shipping_info (
-    shipping_id INT,
-    agreement_id INT REFERENCES shipping_agreement(agreement_id),
-    transfer_id INT REFERENCES shipping_transfer(id),
-    shipping_country_rate_id INT REFERENCES shipping_country_rates(id),
-    shipping_plan_datetime timestamp,
-    payment_amount numeric(14, 2),
-    vendor_id INT);
+    shipping_id INT4,
+    agreement_id INT4 REFERENCES shipping_agreement(agreement_id),
+    transfer_id INT4 REFERENCES shipping_transfer(id),
+    shipping_country_rate_id INT4 REFERENCES shipping_country_rates(id),
+    shipping_plan_datetime TIMESTAMP,
+    payment_amount NUMERIC(14, 2),
+    vendor_id INT4);
 
 
-Insert into shipping_info 
-select
-	distinct
+INSERT INTO shipping_info 
+SELECT
+	DISTINCT
     s.shippingid,
     sa.agreement_id,
     st.id AS shipping_transfer_id,
@@ -24,7 +24,7 @@ INNER JOIN
      public.shipping_country_rates cr ON s.shipping_country = cr.shipping_country
 INNER join
      public.shipping_transfer st ON st.transfer_type = SPLIT_PART(s.shipping_transfer_description, ':', 1) 
-    and st.transfer_model= SPLIT_PART(s.shipping_transfer_description, ':', 2)
-inner join 
-	 public.shipping_agreement sa on sa.agreement_id= cast(SPLIT_PART(s.vendor_agreement_description, ':', 1) as int4)
-order by s.shippingid;
+    AND st.transfer_model= SPLIT_PART(s.shipping_transfer_description, ':', 2)
+INNER JOIN 
+	 public.shipping_agreement sa ON sa.agreement_id= cast(SPLIT_PART(s.vendor_agreement_description, ':', 1) AS INT4)
+ORDER BY s.shippingid;

@@ -1,8 +1,10 @@
-create table if not exists public.shipping_country_rates(
+CREATE TABLE IF NOT EXISTS public.shipping_country_rates(
 	id SERIAL,
-	shipping_country text,
-	shipping_country_base_rate numeric(14,2),
-	primary key (id)
+	shipping_country TEXT,
+	shipping_country_base_rate NUMERIC(14,2),
+	PRIMARY KEY (id)
 	);
-insert into public.shipping_country_rates(shipping_country,shipping_country_base_rate)
-select distinct shipping_country, shipping_country_base_rate from public.shipping;
+INSERT INTO public.shipping_country_rates(shipping_country,shipping_country_base_rate)
+SELECT 
+	DISTINCT shipping_country, shipping_country_base_rate 
+FROM public.shipping;
